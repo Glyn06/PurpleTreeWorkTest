@@ -14,7 +14,7 @@ public class HeroMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         if (characterController == null)
-            Debug.LogError("No hay characther controllern en " + gameObject.name);
+            Debug.LogError("No hay characther controller en " + gameObject.name);
     }
 
     private void Update()
