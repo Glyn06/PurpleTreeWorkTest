@@ -12,7 +12,10 @@ public class Rock : MonoBehaviour
 
     Vector2 movement;
     Gravity gravity;
-    float initialSpeed;
+
+    float horizontalSpeed;
+    float verticalSpeed;
+
     float myAngle;
 
     // Start is called before the first frame update
@@ -34,7 +37,7 @@ public class Rock : MonoBehaviour
             movement = Vector2.zero;
         }
 
-        movement.y -= gravity.GetCurrentGravityForce() * Time.deltaTime;
+        movement.y -= gravity.GetCurrentGravityForce() * Time.deltaTime; //Gravedad
         transform.Translate(movement * Time.deltaTime);
     }
 
@@ -45,20 +48,34 @@ public class Rock : MonoBehaviour
             startDespawnTimer = true;
             movement = Vector2.zero;
         }
+
+        if (collision.gameObject.layer == 9)
+        {
+            movement = Vector2.zero;
+            SpringBox springBox = collision.gameObject.GetComponent<SpringBox>();
+
+            if (springBox != null)
+            {
+                verticalSpeed = springBox.ApplyVerticalBounceFactor(verticalSpeed);
+
+                horizontalSpeed = springBox.ApplyHorizontallBounceFactor(horizontalSpeed);
+
+                CalculateMovementComponents(horizontalSpeed, verticalSpeed, myAngle);
+            }
+            else
+            {
+                Debug.LogError("El objeto " + collision.gameObject.name + " no contiene el componente SpringBox. Tenes que agregarselo o sacarlo del layer SpringBox");
+            }
+        }
     }
 
-    public void CalculateMovementComponents() {
-        movement.x = initialSpeed * Mathf.Cos(Mathf.Deg2Rad * myAngle);
-        movement.y = initialSpeed * Mathf.Sin(Mathf.Deg2Rad * myAngle);
-    }
+    public void CalculateMovementComponents(float hSpeed, float vSpeed, float angle) {
+        movement.x = hSpeed * Mathf.Cos(Mathf.Deg2Rad * angle);
+        movement.y = vSpeed * Mathf.Sin(Mathf.Deg2Rad * angle);
 
-    public void SetRockSpeed(float speed)
-    {
-        initialSpeed = speed;
-    }
+        horizontalSpeed = hSpeed;
+        verticalSpeed = vSpeed;
 
-    public void SetRockAngle(float angle)
-    {
         myAngle = angle;
     }
 }
