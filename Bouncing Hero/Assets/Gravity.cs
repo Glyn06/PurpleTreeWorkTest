@@ -6,7 +6,7 @@ public class Gravity : MonoBehaviour
 {
     public float gravityForce = 9.8f;
 
-    float currentGravityForce;
+    private float currentGravityForce;
 
     private void Start()
     {
@@ -15,15 +15,18 @@ public class Gravity : MonoBehaviour
 
     private void Update()
     {
-        Vector3 gravityVector = new Vector3(0, -currentGravityForce * Time.deltaTime, 0); 
-        gameObject.transform.Translate(gravityVector);
+        /*Vector3 gravityVector = new Vector3(0, -currentGravityForce * Time.deltaTime, 0); 
+        gameObject.transform.Translate(gravityVector);*/
+    }
+
+    public float GetCurrentGravityForce() {
+        return currentGravityForce;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 8)
         {
-            Debug.Log("Hit");
             currentGravityForce = 0;
         }
     }

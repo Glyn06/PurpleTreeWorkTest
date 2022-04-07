@@ -9,8 +9,8 @@ public class Thrower : MonoBehaviour
     public GameObject rockPrefab;
     public Transform rockSpawnPoint;
 
-    public float minThrowAngle = 20;
-    public float maxThrowAngle = 85;
+    public int minThrowAngle = 20;
+    public int maxThrowAngle = 85;
 
     public float minThrowSpeed = 2;
     public float maxThrowSpeed = 5;
@@ -18,7 +18,7 @@ public class Thrower : MonoBehaviour
     public float minTimeBetweenThrows = 2.5f;
     public float maxTimeBetweenThrows = 5;
 
-    float throwangle;
+    float throwAngle;
     float throwSpeed;
     float throwTimer;
 
@@ -45,7 +45,22 @@ public class Thrower : MonoBehaviour
     {
         if (rockPrefab != null)
         {
-            Instantiate(rockPrefab, rockSpawnPoint.position, Quaternion.identity);
+            GameObject goInstance;
+            goInstance = Instantiate(rockPrefab, rockSpawnPoint.position, Quaternion.identity);
+
+            Rock rockInstance;
+            rockInstance = goInstance.GetComponent<Rock>();
+
+            if (rockInstance != null)
+            {
+                rockInstance.SetRockAngle(throwAngle);
+                rockInstance.SetRockSpeed(throwSpeed);
+                rockInstance.CalculateMovementComponents();
+            }
+            else
+            {
+                Debug.LogError("Al prefab " + goInstance.name + " le falta el script Rock");
+            }
         }
         else
         {
@@ -55,9 +70,8 @@ public class Thrower : MonoBehaviour
 
     private void GenerateRandomValues()
     {
-        throwangle = Random.Range(minThrowAngle, maxThrowAngle);
+        throwAngle = Random.Range(minThrowAngle, maxThrowAngle);
         throwSpeed = Random.Range(minThrowSpeed, maxThrowSpeed);
         throwTimer = Random.Range(minTimeBetweenThrows, maxTimeBetweenThrows);
     }
-
 }

@@ -279,8 +279,8 @@ MonoBehaviour:
   rockSpawnPoint: {fileID: 2061958638}
   minThrowAngle: 20
   maxThrowAngle: 85
-  minThrowSpeed: 2
-  maxThrowSpeed: 5
+  minThrowSpeed: 8
+  maxThrowSpeed: 13
   minTimeBetweenThrows: 2.5
   maxTimeBetweenThrows: 5
 --- !u!1 &519420028
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5064ea110ec887c4bb11e7597769df51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 10
 --- !u!212 &1264103694
 SpriteRenderer:
   m_ObjectHideFlags: 0
