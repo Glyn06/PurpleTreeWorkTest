@@ -4,9 +4,19 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class HeroMovement : MonoBehaviour
 {
     public float movementSpeed = 5;
+
+    Animator animator;
+    SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -15,6 +25,10 @@ public class HeroMovement : MonoBehaviour
         Vector2 movementVector;
         movementVector.x = hMov * movementSpeed * Time.deltaTime;
         movementVector.y = 0;
+
+        animator.SetBool("IsWalking", movementVector != Vector2.zero);
+
+        spriteRenderer.flipX = movementVector.x <= 0;
 
         transform.Translate(movementVector);
     }

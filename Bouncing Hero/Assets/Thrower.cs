@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(Animator))]
 public class Thrower : MonoBehaviour
 {
     public GameObject rockPrefab;
@@ -24,19 +25,22 @@ public class Thrower : MonoBehaviour
 
     float timer;
 
+    Animator animator;
+
     private void Start()
     {
         GenerateRandomValues();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
 
+        animator.SetBool("Throw", timer >= throwTimer);
+
         if (timer >= throwTimer)
         {
-            ThrowRock();
-            GenerateRandomValues();
             timer = 0;
         }
     }
@@ -45,6 +49,8 @@ public class Thrower : MonoBehaviour
     {
         if (rockPrefab != null)
         {
+            GenerateRandomValues();
+
             GameObject goInstance;
             goInstance = Instantiate(rockPrefab, rockSpawnPoint.position, Quaternion.identity);
 
