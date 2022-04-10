@@ -9,33 +9,61 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] CoinSpawner coinSpawner;
     [SerializeField] int rockQuantityToSpawnCoin;
+    [SerializeField] float levelTime;
+
+    float remainingTime;
+
+    int totalCoinsCollected;
+    int rocksScoredToSpawnCoin;
+    int totalRocksScored;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
+
+        remainingTime = levelTime;
     }
 
-    int totalCoinsCollected;
-    int rocksScored;
+    private void Update()
+    {
+        if (remainingTime <= 0)
+        {
+            OnGameOver();
+        }
+        else
+        {
+            remainingTime -= Time.deltaTime;
+
+            UIManager.instance.SetTimerText(remainingTime.ToString("00"));
+        }
+    }
+
+    private void OnGameOver()
+    {
+        Time.timeScale = 0;
+    }
 
     public void AddCoin()
     {
         totalCoinsCollected++;
+        UIManager.instance.SetCoinCountText(totalCoinsCollected.ToString("00"));
     }
 
     public void AddRock()
     {
-        rocksScored++;
+        rocksScoredToSpawnCoin++;
+        totalRocksScored++;
         TrySpawnCoin();
+        UIManager.instance.SetRockCountText(totalRocksScored.ToString("00"));
     }
 
     public void TrySpawnCoin()
     {
-        if (rocksScored >= rockQuantityToSpawnCoin)
+        if (rocksScoredToSpawnCoin >= rockQuantityToSpawnCoin)
         {
             coinSpawner.SpawnCoinInArea();
-            rocksScored = 0;
+            rocksScoredToSpawnCoin = 0;
         }
 
     }
