@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Gravity))]
 public class Rock : MonoBehaviour
 {
-    public float despwanTimer = 2;
+    [SerializeField] float despwanTimer = 2;
 
     float timer;
     bool startDespawnTimer = false;
@@ -28,11 +28,9 @@ public class Rock : MonoBehaviour
 
     bool floorHit;
 
-    // Start is called before the first frame update
     void Awake()
     {
         initialPosition = new Vector2(transform.position.x, transform.position.y);
-
 
         gravity = GetComponent<Gravity>();
         goal = FindObjectOfType<Goal>();

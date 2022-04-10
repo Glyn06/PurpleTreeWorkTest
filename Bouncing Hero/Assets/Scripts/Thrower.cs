@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class Thrower : MonoBehaviour
 {
-    public GameObject rockPrefab;
-    public Transform rockSpawnPoint;
+    [SerializeField] GameObject rockPrefab;
+    [SerializeField] Transform rockSpawnPoint;
 
-    public int minThrowAngle = 20;
-    public int maxThrowAngle = 85;
+    [SerializeField] int minThrowAngle = 20;
+    [SerializeField] int maxThrowAngle = 85;
 
-    public float minThrowSpeed = 2;
-    public float maxThrowSpeed = 5;
+    [SerializeField] float minThrowSpeed = 2;
+    [SerializeField] float maxThrowSpeed = 5;
 
-    public float minTimeBetweenThrows = 2.5f;
-    public float maxTimeBetweenThrows = 5;
+    [SerializeField] float minTimeBetweenThrows = 2.5f;
+    [SerializeField] float maxTimeBetweenThrows = 5;
 
     float throwAngle;
     float throwSpeed;
@@ -58,17 +54,7 @@ public class Thrower : MonoBehaviour
             rockInstance = goInstance.GetComponent<Rock>();
 
             if (rockInstance != null)
-            {
                 rockInstance.CalculateMovementComponents(throwSpeed, throwAngle);
-            }
-            else
-            {
-                Debug.LogError("Al prefab " + goInstance.name + " le falta el script Rock");
-            }
-        }
-        else
-        {
-            Debug.LogError("Falta prefab de la roca en " + gameObject.name);
         }
     }
 

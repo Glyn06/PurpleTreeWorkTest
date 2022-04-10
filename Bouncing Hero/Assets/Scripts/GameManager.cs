@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,9 +26,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (remainingTime <= 0)
-        {
             OnGameOver();
-        }
         else
         {
             remainingTime -= Time.deltaTime;
@@ -72,6 +67,5 @@ public class GameManager : MonoBehaviour
             coinSpawner.SpawnCoinInArea();
             rocksScoredToSpawnCoin = 0;
         }
-
     }
 }

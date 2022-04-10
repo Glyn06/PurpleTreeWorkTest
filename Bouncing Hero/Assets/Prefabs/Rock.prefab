@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityForce: 9.8
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &8773627727258988400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1036bc6542def7e40952f8a6ee1723f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  springboxLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   despwanTimer: 2
 --- !u!61 &4278246537659714979
 BoxCollider2D:

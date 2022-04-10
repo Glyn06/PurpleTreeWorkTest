@@ -1,16 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] Vector3 offset, minValues, maxValues;
-
-    private void Start()
-    {
-
-    }
 
     private void LateUpdate()
     {

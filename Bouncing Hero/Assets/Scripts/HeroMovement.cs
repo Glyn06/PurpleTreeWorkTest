@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,7 +7,7 @@ public class HeroMovement : MonoBehaviour
 {
 
     [SerializeField] GameObject smokePrefab;
-    public float movementSpeed = 5;
+    [SerializeField] public float movementSpeed = 5;
 
     Animator animator;
     SpriteRenderer spriteRenderer;

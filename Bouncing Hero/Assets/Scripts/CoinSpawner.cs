@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
@@ -23,13 +21,9 @@ public class CoinSpawner : MonoBehaviour
         randomPositionInArea.y = Random.Range(transform.position.y - spawnArea.y / 2, transform.position.y + spawnArea.y / 2);
 
         if (CheckPositionAvaiability(randomPositionInArea))
-        {
             Instantiate(coinPrefab, randomPositionInArea, Quaternion.identity);
-        }
         else
-        {
             SpawnCoinInArea();
-        }
     }
 
     private bool CheckPositionAvaiability(Vector2 position)
