@@ -484,7 +484,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 8797808150302913223, guid: fc8c17ea79f4b8f4caa75ed4615a76d0,
     type: 3}
-  spawnArea: {x: 16, y: 0}
+  spawnArea: {x: 17, y: 0}
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!4 &807971977
 Transform:
   m_ObjectHideFlags: 0
@@ -493,7 +496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807971975}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.33, y: -3.12, z: 0}
+  m_LocalPosition: {x: 2.27, y: -3.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -6,6 +6,7 @@ public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] GameObject coinPrefab;
     [SerializeField] Vector2 spawnArea;
+    [SerializeField] LayerMask playerMask;
 
     private void OnDrawGizmos()
     {
@@ -33,7 +34,7 @@ public class CoinSpawner : MonoBehaviour
 
     private bool CheckPositionAvaiability(Vector2 position)
     {
-        Collider2D colliders = Physics2D.OverlapCircle(position, 1, 10);
+        Collider2D colliders = Physics2D.OverlapCircle(position, 1, playerMask);
 
         if (colliders != null)
             return false;
