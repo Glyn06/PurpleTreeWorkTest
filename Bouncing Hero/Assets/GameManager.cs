@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField] GameObject heroGuide;
     [SerializeField] CoinSpawner coinSpawner;
     [SerializeField] int rockQuantityToSpawnCoin;
     [SerializeField] float levelTime;
@@ -37,6 +38,12 @@ public class GameManager : MonoBehaviour
 
             UIManager.instance.SetTimerText(remainingTime.ToString("00"));
         }
+    }
+
+    public void SetHeroGuideX(float maxX)
+    {
+        Vector2 pos = new Vector2(maxX, heroGuide.transform.position.y);
+        heroGuide.transform.position = pos;
     }
 
     private void OnGameOver()

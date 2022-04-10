@@ -152,5 +152,9 @@ public class Rock : MonoBehaviour
     public void CalculateMaxX()
     {
         maxX = (Mathf.Pow(initialVelocity, 2) * Mathf.Sin(Mathf.Deg2Rad * myAngle * 2)) / gravity.GetGravityForce();
+
+        maxX = initialPosition.x + maxX;
+
+        GameManager.instance.SetHeroGuideX(maxX);
     }
 }
