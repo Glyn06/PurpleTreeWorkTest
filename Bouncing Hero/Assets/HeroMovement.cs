@@ -2,30 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class HeroMovement : MonoBehaviour
 {
     public float movementSpeed = 5;
-    //Inercia
-
-    CharacterController characterController;
-
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-
-        if (characterController == null)
-            Debug.LogError("No hay characther controller en " + gameObject.name);
-    }
 
     private void Update()
     {
         float hMov = Input.GetAxis("Horizontal");
 
-        Vector3 movementVector;
+        Vector2 movementVector;
         movementVector.x = hMov * movementSpeed * Time.deltaTime;
         movementVector.y = 0;
-        movementVector.z = 0;
 
-        characterController.Move(movementVector);
+        transform.Translate(movementVector);
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Coin : MonoBehaviour
 {
     [SerializeField] float timeToDespawn;
