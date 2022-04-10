@@ -1686,6 +1686,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5064ea110ec887c4bb11e7597769df51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 7705978983900044637, guid: f0d6909d991e93c4594f1e820967a89c,
+    type: 3}
   movementSpeed: 10
 --- !u!95 &1264103698
 Animator:

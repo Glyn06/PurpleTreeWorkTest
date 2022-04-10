@@ -7,6 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class HeroMovement : MonoBehaviour
 {
+
+    [SerializeField] GameObject smokePrefab;
     public float movementSpeed = 5;
 
     Animator animator;
@@ -29,6 +31,14 @@ public class HeroMovement : MonoBehaviour
         animator.SetBool("IsWalking", movementVector != Vector2.zero);
 
         spriteRenderer.flipX = movementVector.x <= 0;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GameObject smokeGO;
+            smokeGO = Instantiate(smokePrefab, transform.position, Quaternion.identity);
+
+            smokeGO.GetComponent<SpriteRenderer>().flipX = spriteRenderer.flipX;
+        }
 
         transform.Translate(movementVector);
     }
