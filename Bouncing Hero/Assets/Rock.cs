@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Gravity))]
 public class Rock : MonoBehaviour
 {
     public float despwanTimer = 2;
@@ -10,22 +8,38 @@ public class Rock : MonoBehaviour
     float timer;
     bool startDespawnTimer = false;
 
-    Vector2 movement;
+    SpringBox springBox;
+
+    Vector2 initialPosition;
+    Vector2 position;
+
     Gravity gravity;
+    Goal goal;
+
+    float aliveTime;
 
     float horizontalSpeed;
     float verticalSpeed;
 
     float myAngle;
+    float initialVelocity;
+
+    float maxX;
+
+    bool floorHit;
 
     // Start is called before the first frame update
     void Awake()
     {
+        initialPosition = new Vector2(transform.position.x, transform.position.y);
+
+
         gravity = GetComponent<Gravity>();
+        goal = FindObjectOfType<Goal>();
+        springBox = FindObjectOfType<SpringBox>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (startDespawnTimer)
         {
@@ -33,12 +47,23 @@ public class Rock : MonoBehaviour
 
             if (timer >= despwanTimer)
                 Destroy(gameObject);
-
-            movement = Vector2.zero;
         }
+    }
 
-        movement.y -= gravity.GetCurrentGravityForce() * Time.deltaTime; //Gravedad
-        transform.Translate(movement * Time.deltaTime);
+    void FixedUpdate()
+    {
+        Vector2 position;
+
+        aliveTime += Time.fixedDeltaTime;
+
+        if (floorHit)
+            position = transform.position;
+        else
+        {
+            position = CalculatePositionOverTime();
+
+            transform.position = position;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,36 +71,86 @@ public class Rock : MonoBehaviour
         if (collision.gameObject.layer == 8)
         {
             startDespawnTimer = true;
-            movement = Vector2.zero;
+
+            floorHit = true;
         }
 
         if (collision.gameObject.layer == 9)
         {
-            movement = Vector2.zero;
-            SpringBox springBox = collision.gameObject.GetComponent<SpringBox>();
+            position = transform.position;
 
             if (springBox != null)
             {
-                verticalSpeed = springBox.ApplyVerticalBounceFactor(verticalSpeed);
+                float HorizontalPosAfterBounce = transform.position.x + maxX;
 
-                horizontalSpeed = springBox.ApplyHorizontallBounceFactor(horizontalSpeed);
-
-                CalculateMovementComponents(horizontalSpeed, verticalSpeed, myAngle);
-            }
-            else
-            {
-                Debug.LogError("El objeto " + collision.gameObject.name + " no contiene el componente SpringBox. Tenes que agregarselo o sacarlo del layer SpringBox");
+                if (HorizontalPosAfterBounce >= goal.transform.position.x)
+                {
+                    CalculateLastBounce();
+                }
+                else
+                {
+                    CalculateBounce();
+                }
             }
         }
     }
 
-    public void CalculateMovementComponents(float hSpeed, float vSpeed, float angle) {
-        movement.x = hSpeed * Mathf.Cos(Mathf.Deg2Rad * angle);
-        movement.y = vSpeed * Mathf.Sin(Mathf.Deg2Rad * angle);
+    private void CalculateBounce()
+    {
+        initialPosition = transform.position;
+        aliveTime = 0;
 
-        horizontalSpeed = hSpeed;
-        verticalSpeed = vSpeed;
+        horizontalSpeed = springBox.ApplyHorizontallBounceFactor(horizontalSpeed);
+        verticalSpeed = springBox.ApplyVerticalBounceFactor(verticalSpeed);
+
+        float newInitialVelocity = horizontalSpeed / Mathf.Cos(Mathf.Deg2Rad * myAngle);
+
+        CalculateMovementComponents(newInitialVelocity, myAngle);
+    }
+
+    private void CalculateLastBounce()
+    {
+        initialPosition = transform.position;
+        aliveTime = 0;
+
+        float randomHeight = goal.transform.position.y + Random.Range(3.5f, 5);
+
+        float displacementY = goal.gameObject.transform.position.y - initialPosition.y;
+        float displacementX = goal.gameObject.transform.position.x - initialPosition.x;
+
+        float maxHeigth = displacementY + randomHeight;
+
+        float velocityY = Mathf.Sqrt(-2 * -gravity.GetGravityForce() * maxHeigth);
+        float velocityX = displacementX / (Mathf.Sqrt(-2 * maxHeigth / -gravity.GetGravityForce()) + Mathf.Sqrt(2 * (displacementY - maxHeigth) / -gravity.GetGravityForce()));
+
+        horizontalSpeed = velocityX;
+        verticalSpeed = velocityY;
+    }
+
+    public void CalculateMovementComponents(float initialSpeed, float angle)
+    {
+        initialVelocity = initialSpeed;
+
+        horizontalSpeed = initialSpeed * Mathf.Cos(Mathf.Deg2Rad * angle);
+        verticalSpeed = initialSpeed * Mathf.Sin(Mathf.Deg2Rad * angle);
 
         myAngle = angle;
+
+        CalculateMaxX();
+    }
+
+    public Vector2 CalculatePositionOverTime()
+    {
+        Vector2 positionOverTime;
+
+        positionOverTime.x = horizontalSpeed * aliveTime + initialPosition.x;
+        positionOverTime.y = 0.5f * (-gravity.GetGravityForce()) * Mathf.Pow(aliveTime, 2) + verticalSpeed * aliveTime + initialPosition.y;
+
+        return positionOverTime;
+    }
+
+    public void CalculateMaxX()
+    {
+        maxX = (Mathf.Pow(initialVelocity, 2) * Mathf.Sin(Mathf.Deg2Rad * myAngle * 2)) / gravity.GetGravityForce();
     }
 }

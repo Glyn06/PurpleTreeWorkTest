@@ -53,7 +53,7 @@ public class Thrower : MonoBehaviour
 
             if (rockInstance != null)
             {
-                rockInstance.CalculateMovementComponents(throwSpeed, throwSpeed, throwAngle);
+                rockInstance.CalculateMovementComponents(throwSpeed, throwAngle);
             }
             else
             {

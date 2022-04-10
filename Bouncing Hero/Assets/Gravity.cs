@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour
 {
-    public float gravityForce = 9.8f;
+    [SerializeField]
+    private float gravityForce = 9.8f;
 
-    private float currentGravityForce;
+    float originalGravityForce;
 
-    private void Start()
+    private void Awake()
     {
-        currentGravityForce = gravityForce;
+        originalGravityForce = gravityForce;
     }
 
     private void Update()
@@ -19,20 +20,20 @@ public class Gravity : MonoBehaviour
         gameObject.transform.Translate(gravityVector);*/
     }
 
-    public float GetCurrentGravityForce() {
-        return currentGravityForce;
+    public float GetGravityForce() {
+        return gravityForce;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 8)
         {
-            currentGravityForce = 0;
+            gravityForce = 0;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        currentGravityForce = gravityForce;
+        gravityForce = originalGravityForce;
     }
 }
