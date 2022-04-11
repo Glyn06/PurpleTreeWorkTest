@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 93671096}
   - component: {fileID: 93671097}
   - component: {fileID: 93671098}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -767,11 +767,11 @@ MonoBehaviour:
     type: 3}
   rockSpawnPoint: {fileID: 2061958638}
   minThrowAngle: 45
-  maxThrowAngle: 45
-  minThrowSpeed: 5
+  maxThrowAngle: 30
+  minThrowSpeed: 8
   maxThrowSpeed: 10
   minTimeBetweenThrows: 1
-  maxTimeBetweenThrows: 5
+  maxTimeBetweenThrows: 3.5
 --- !u!95 &206060211
 Animator:
   serializedVersion: 3
