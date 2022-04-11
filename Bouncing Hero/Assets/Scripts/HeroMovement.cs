@@ -20,24 +20,30 @@ public class HeroMovement : MonoBehaviour
 
     private void Update()
     {
-        float hMov = Input.GetAxis("Horizontal");
-
-        Vector2 movementVector;
-        movementVector.x = hMov * movementSpeed * Time.deltaTime;
-        movementVector.y = 0;
-
-        animator.SetBool("IsWalking", movementVector != Vector2.zero);
-
-        spriteRenderer.flipX = movementVector.x <= 0;
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (Time.timeScale != 0)
         {
-            GameObject smokeGO;
-            smokeGO = Instantiate(smokePrefab, transform.position, Quaternion.identity);
+            float hMov = Input.GetAxis("Horizontal");
 
-            smokeGO.GetComponent<SpriteRenderer>().flipX = spriteRenderer.flipX;
+            Vector2 movementVector;
+            movementVector.x = hMov * movementSpeed * Time.deltaTime;
+            movementVector.y = 0;
+
+            animator.SetBool("IsWalking", movementVector != Vector2.zero);
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                spriteRenderer.flipX = true;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                spriteRenderer.flipX = false;
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                GameObject smokeGO;
+                smokeGO = Instantiate(smokePrefab, transform.position, Quaternion.identity);
+
+                smokeGO.GetComponent<SpriteRenderer>().flipX = spriteRenderer.flipX;
+            }
+
+            transform.Translate(movementVector);
         }
-
-        transform.Translate(movementVector);
     }
 }

@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField] GameObject reloadButton;
     [SerializeField] GameObject heroGuide;
     [SerializeField] CoinSpawner coinSpawner;
     [SerializeField] int rockQuantityToSpawnCoin;
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     private void OnGameOver()
     {
         Time.timeScale = 0;
+        reloadButton.SetActive(true);
     }
 
     public void AddCoin()
